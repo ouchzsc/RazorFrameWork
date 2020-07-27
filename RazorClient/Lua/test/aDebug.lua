@@ -1,0 +1,1 @@
+print(CS.UnityEngine.Time.time)

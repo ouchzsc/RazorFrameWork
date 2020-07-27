@@ -1,0 +1,10 @@
+*.csproj
+*.sln
+RazorClient/.idea/
+RazorClient/AssetBundles/
+RazorClient/Temp/
+RazorClient/Library/
+RazorClient/Build/
+RazorClient/Assets/StreamingAssets/
+RazorClient/Assets/XLua/Gen/
+RazorClient/Lua/.idea/
