@@ -14,7 +14,7 @@ namespace Res
         private readonly Dictionary<int, DelegateVoidObject> _id2Callback = new Dictionary<int, DelegateVoidObject>();
         public static AssetMgr Instance { get; private set; }
 
-        private void Awake()
+        public void Awake()
         {
             Instance = this;
         }

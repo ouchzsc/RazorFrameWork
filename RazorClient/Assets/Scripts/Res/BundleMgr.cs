@@ -32,7 +32,7 @@ namespace Res
 
         IEnumerator LoadBundleCoroutine(string bundleName)
         {
-            string bundlePath = Path.Combine(Application.streamingAssetsPath, bundleName);
+            string bundlePath = Path.Combine(Application.temporaryCachePath, "StandaloneWindows", bundleName);
             var request = AssetBundle.LoadFromFileAsync(bundlePath);
             yield return request;
             if (_name2OnLoadDone.TryGetValue(bundleName, out var onLoadDone))

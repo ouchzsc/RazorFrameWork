@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Res
 {
     public class BundleDepMgr : MonoBehaviour
     {
         public static BundleDepMgr Instance { get; private set; }
-        private AssetBundleManifest _manifest;
+        public AssetBundleManifest Manifest { get; private set; }
+        
         private readonly Dictionary<int, int> _id2UnloadedCnt = new Dictionary<int, int>();
         private readonly Dictionary<int, AssetBundle> _id2AssetBundle = new Dictionary<int, AssetBundle>();
 
@@ -18,18 +20,26 @@ namespace Res
         public String packageName;
         private int _uuId;
 
-        private void Awake()
+        private void Start()
         {
             Instance = this;
+        }
+
+        public void Init(Action done)
+        {
             BundleMgr.Instance.loadBundle(packageName,
-                ab => { _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest"); });
+                ab =>
+                {
+                    Manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+                    done();
+                });
         }
 
         public Action loadBundleAndDependency(string bundleName, DelegateVoidAssetBundle userCallBack)
         {
             var id = _uuId++;
             List<Action> disposes = new List<Action>();
-            var allDeps = _manifest.GetAllDependencies(bundleName);
+            var allDeps = Manifest.GetAllDependencies(bundleName);
             _id2UnloadedCnt.Add(id, allDeps.Length + 1);
             _id2CallBack.Add(id, userCallBack);
             disposes.Add(BundleMgr.Instance.loadBundle(bundleName, ab =>
