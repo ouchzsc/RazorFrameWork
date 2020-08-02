@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using XLua.Cast;
 
 namespace ResUpdate
 {
@@ -17,43 +18,83 @@ namespace ResUpdate
         public GameObject go_uri;
         public GameObject go_progress;
         public Image image_progress;
+        public Button button_EnterGame;
 
         public Button button;
+        public Text text_loading;
 
-        void Start()
+        private enum LoadState
+        {
+            Loading,
+            Unload,
+            Loaded,
+        }
+
+        private LoadState _loadState;
+        private float bundleProgress;
+        private string bundleLoaing;
+        private float barProgress;
+
+        private void Start()
         {
             button.onClick.AddListener(OnClick);
             inputField_ip.text = ResUpdate.Instance.ipAddress;
             inputField_port.text = ResUpdate.Instance.port;
         }
 
+        private void OnEnable()
+        {
+            _loadState = LoadState.Unload;
+            ResUpdate.Instance.onBundleUpdate += OnBundleUpdateDone;
+            OnShow();
+        }
+
+        private void OnBundleUpdateDone(string bundle,float progress)
+        {
+            bundleLoaing = bundle;
+            bundleProgress = progress;
+            OnShow();
+        }
+
+
         private void OnClick()
         {
             ResUpdate.Instance.ipAddress = inputField_ip.text;
             ResUpdate.Instance.port = inputField_port.text;
             ResUpdate.Instance.StartUpdate();
+            _loadState = LoadState.Loading;
+            OnShow();
         }
 
-//        private IEnumerator DownLoadCoroutine(string folder, string filename, Action done)
-//        {
-//            var uri = $"http://{ipAddress}:{port}/{Path.Combine(folder, filename)}";
-//            UnityWebRequest webRequest = UnityWebRequest.Get(uri);
-//            Debug.Log(uri);
-//            yield return webRequest.SendWebRequest();
-//            if (webRequest.isNetworkError || webRequest.isHttpError)
-//            {
-//                Debug.LogError(webRequest.error);
-//            }
-//            else
-//            {
-//                var savePath = Path.Combine(Application.temporaryCachePath, folder);
-//                Directory.CreateDirectory(savePath);
-//                File.WriteAllBytes(Path.Combine(savePath, filename), webRequest.downloadHandler.data);
-//
-//
-//                //AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(webRequest);
-//                done();
-//            }
-//        }
+        private void Update()
+        {
+            var resProgress = bundleProgress;
+            if (barProgress < resProgress)
+                barProgress += 2f * Time.deltaTime;
+            OnShowProgress();
+            if (barProgress >= 1)
+                StartCoroutine(DelayHideLoading());
+        }
+
+        private void OnShow()
+        {
+            go_progress.SetActive(_loadState == LoadState.Loading);
+            go_uri.SetActive(_loadState == LoadState.Unload);
+            button_EnterGame.gameObject.SetActive(_loadState == LoadState.Loaded);
+            text_loading.text = bundleLoaing;
+            OnShowProgress();
+        }
+
+        private void OnShowProgress()
+        {
+            image_progress.fillAmount = barProgress;
+        }
+        
+        private IEnumerator DelayHideLoading()
+        {
+            yield return new WaitForSeconds(0.5f);
+            _loadState = LoadState.Loaded;
+            OnShow();
+        }
     }
 }
