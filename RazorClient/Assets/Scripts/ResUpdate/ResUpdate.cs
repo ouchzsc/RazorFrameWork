@@ -59,6 +59,7 @@ namespace ResUpdate
 
         private void OnManifestLoadDone(AssetBundleManifest ab)
         {
+            BundleDepMgr.Instance.Manifest = ab;
             Debug.Log($"manifest load done: {ab}");
             var allBundles = ab.GetAllAssetBundles();
             _totalBundleCnt = allBundles.Length;

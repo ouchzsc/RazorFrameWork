@@ -38,8 +38,19 @@ namespace ResUpdate
         private void Start()
         {
             button.onClick.AddListener(OnClick);
+            button_EnterGame.onClick.AddListener(OnBtnEnterGame);
             inputField_ip.text = ResUpdate.Instance.ipAddress;
             inputField_port.text = ResUpdate.Instance.port;
+        }
+
+        private void OnBtnEnterGame()
+        {
+            Destroy(gameObject);
+            AssetMgr.Instance.loadAsset("boot", "LuaBoot", asset =>
+            {
+                Debug.Log("load done luaBoot");
+                GameObject go = GameObject.Instantiate(asset as GameObject);
+            });
         }
 
         private void OnEnable()
@@ -49,7 +60,7 @@ namespace ResUpdate
             OnShow();
         }
 
-        private void OnBundleUpdateDone(string bundle,float progress)
+        private void OnBundleUpdateDone(string bundle, float progress)
         {
             bundleLoaing = bundle;
             bundleProgress = progress;
@@ -89,7 +100,7 @@ namespace ResUpdate
         {
             image_progress.fillAmount = barProgress;
         }
-        
+
         private IEnumerator DelayHideLoading()
         {
             yield return new WaitForSeconds(0.5f);

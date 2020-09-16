@@ -9,7 +9,7 @@ namespace Res
     public class BundleDepMgr : MonoBehaviour
     {
         public static BundleDepMgr Instance { get; private set; }
-        public AssetBundleManifest Manifest { get; private set; }
+        public AssetBundleManifest Manifest { get; set; }
         
         private readonly Dictionary<int, int> _id2UnloadedCnt = new Dictionary<int, int>();
         private readonly Dictionary<int, AssetBundle> _id2AssetBundle = new Dictionary<int, AssetBundle>();
@@ -23,16 +23,6 @@ namespace Res
         private void Start()
         {
             Instance = this;
-        }
-
-        public void Init(Action done)
-        {
-            BundleMgr.Instance.loadBundle(packageName,
-                ab =>
-                {
-                    Manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-                    done();
-                });
         }
 
         public Action loadBundleAndDependency(string bundleName, DelegateVoidAssetBundle userCallBack)
