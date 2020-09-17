@@ -1,8 +1,8 @@
 local module = {}
 
 function module.requireModules()
-    loggers = require("logger.loggers")
-    event = require("event.event")
+    module.loggers = require("logger.loggers")
+    module.event = require("event.event")
     module.input = require("input.input")
     module.testInvoker = require("test.testInvoker")
     module.time = require("time.time")
@@ -10,8 +10,8 @@ function module.requireModules()
 end
 
 function module.initModules()
-    event.init()
-    loggers.init()
+    module.loggers.init()
+    module.event.init()
     module.input.init()
     module.testInvoker.init()
     module.time.init()

@@ -1,5 +1,7 @@
 local Input = CS.UnityEngine.Input
 local KeyCode = CS.UnityEngine.KeyCode
+local module = require("module")
+local event = module.event
 
 local input = {}
 

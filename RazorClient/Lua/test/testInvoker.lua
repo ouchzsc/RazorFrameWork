@@ -1,5 +1,8 @@
 local testMgr = {}
 local KeyCode = CS.UnityEngine.KeyCode
+local module = require("module")
+local event = module.event
+local loggers = module.loggers
 
 local function noFileMsg()
     print("test目录下有个test_template.lua，把“_template”删除，创建test.lua文件，即可在运行期修改代码并执行其中的f5 f6 f7 f8")
@@ -7,7 +10,6 @@ end
 
 local function err(msg, lvl)
     loggers.default:error(msg)
-
 end
 
 local function tryInvokeTest(funcName)

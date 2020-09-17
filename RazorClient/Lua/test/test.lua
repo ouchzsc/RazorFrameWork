@@ -5,13 +5,12 @@ local bundleDepMgr = CS.Res.BundleDepMgr.Instance
 local test = {}
 
 function test.f5()
-    assetMgr:loadAsset("cube", "Cube", function(asset)
+    assetMgr:loadAsset("capsule", "Capsule", function(asset)
         CS.UnityEngine.GameObject.Instantiate(asset)
     end)
 end
 
 function test.f6()
-
 end
 
 function test.f7()
