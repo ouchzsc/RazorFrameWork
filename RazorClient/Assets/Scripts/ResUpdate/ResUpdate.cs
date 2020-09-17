@@ -28,6 +28,8 @@ namespace ResUpdate
 
         public Dictionary<string, BundlePos> bundleName2Pos = new Dictionary<string, BundlePos>();
 
+        public Action onDownloadError;
+
         public static ResUpdate Instance { get; private set; }
 
         public void Awake()
@@ -48,7 +50,10 @@ namespace ResUpdate
             Debug.Log($"down load manifest {uri}");
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
+            {
                 Debug.LogError(request.error);
+                onDownloadError?.Invoke();
+            }
             else
             {
                 var abManifest = DownloadHandlerAssetBundle.GetContent(request);

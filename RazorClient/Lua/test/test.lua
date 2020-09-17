@@ -5,16 +5,26 @@ local bundleDepMgr = CS.Res.BundleDepMgr.Instance
 local test = {}
 
 function test.f5()
-    assetMgr:loadAsset("capsule", "Capsule", function(asset)
-        CS.UnityEngine.GameObject.Instantiate(asset)
+    --assetMgr:loadAsset("capsule", "Capsule", function(asset)
+    --    CS.UnityEngine.GameObject.Instantiate(asset)
+    --end)
+    loader = bundleMgr:loadBundle("s1", function(ab)
+        CS.UnityEngine.SceneManagement.SceneManager.LoadScene("s1")
     end)
+    --bundleMgr:loadBundle("s1",function (ab)
+    --    --CS.UnityEngine.SceneManager.LoadScene("s1")
+    --end)
 end
 
 function test.f6()
+    loader()
 end
 
 function test.f7()
-
+    loader = bundleMgr:loadBundle("s1", function(ab)
+        CS.UnityEngine.SceneManagement.SceneManager.LoadScene("s1")
+        loader()
+    end)
 end
 
 function test.f8()

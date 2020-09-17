@@ -23,6 +23,8 @@ namespace ResUpdate
         public Button button;
         public Text text_loading;
 
+        public float barSpeed = 4f;
+
         private enum LoadState
         {
             Loading,
@@ -57,6 +59,13 @@ namespace ResUpdate
         {
             _loadState = LoadState.Unload;
             ResUpdate.Instance.onBundleUpdate += OnBundleUpdateDone;
+            ResUpdate.Instance.onDownloadError += onDownloadError;
+            OnShow();
+        }
+
+        private void onDownloadError()
+        {
+            _loadState = LoadState.Unload;
             OnShow();
         }
 
@@ -81,10 +90,14 @@ namespace ResUpdate
         {
             var resProgress = bundleProgress;
             if (barProgress < resProgress)
-                barProgress += 2f * Time.deltaTime;
+                barProgress += barSpeed * Time.deltaTime;
             OnShowProgress();
             if (barProgress >= 1)
-                StartCoroutine(DelayHideLoading());
+            {
+                _loadState = LoadState.Loaded;
+                OnShow();
+                //StartCoroutine(DelayHideLoading());
+            }
         }
 
         private void OnShow()
