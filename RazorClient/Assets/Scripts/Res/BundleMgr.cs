@@ -50,7 +50,13 @@ namespace Res
             _loadingBundles.Remove(bundleName);
         }
 
-        public Action loadBundle(string bundleName, DelegateVoidAssetBundle userCallBack)
+        public Action loadBundleByPureName(string pureName, DelegateVoidAssetBundle userCallBack)
+        {
+            var name_hash = BundleDepMgr.Instance.getNameWithHash(pureName);
+            return loadBundleByNameHash(name_hash, userCallBack);
+        }
+
+        public Action loadBundleByNameHash(string bundleName, DelegateVoidAssetBundle userCallBack)
         {
             int id = ++_uuId;
             _uuIdSet.Add(id);

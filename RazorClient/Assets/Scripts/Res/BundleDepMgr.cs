@@ -9,8 +9,27 @@ namespace Res
     public class BundleDepMgr : MonoBehaviour
     {
         public static BundleDepMgr Instance { get; private set; }
-        public AssetBundleManifest Manifest { get; set; }
-        
+
+        private AssetBundleManifest manifest;
+        private Dictionary<String, String> name2nameWithHash = new Dictionary<string, string>();
+        public AssetBundleManifest Manifest
+        {
+            get
+            {
+                return manifest;
+            }
+            set
+            {
+                manifest = value;
+                name2nameWithHash.Clear();
+                foreach (string name_Hash in value.GetAllAssetBundles())
+                {
+                    var name = name_Hash.Split('_')[0];
+                    name2nameWithHash.Add(name, name_Hash);
+                }
+            }
+        }
+
         private readonly Dictionary<int, int> _id2UnloadedCnt = new Dictionary<int, int>();
         private readonly Dictionary<int, AssetBundle> _id2AssetBundle = new Dictionary<int, AssetBundle>();
 
@@ -29,17 +48,18 @@ namespace Res
         {
             var id = _uuId++;
             List<Action> disposes = new List<Action>();
-            var allDeps = Manifest.GetAllDependencies(bundleName);
+            var bundleNameHash = getNameWithHash(bundleName);
+            var allDeps = Manifest.GetAllDependencies(bundleNameHash);
             _id2UnloadedCnt.Add(id, allDeps.Length + 1);
             _id2CallBack.Add(id, userCallBack);
-            disposes.Add(BundleMgr.Instance.loadBundle(bundleName, ab =>
+            disposes.Add(BundleMgr.Instance.loadBundleByNameHash(bundleNameHash, ab =>
             {
                 _id2AssetBundle.Add(id, ab);
                 OnAbLoadDone(id);
             }));
             foreach (var dep in allDeps)
             {
-                disposes.Add(BundleMgr.Instance.loadBundle(dep, ab => { OnAbLoadDone(id); }));
+                disposes.Add(BundleMgr.Instance.loadBundleByNameHash(dep, ab => { OnAbLoadDone(id); }));
             }
 
             return () =>
@@ -63,6 +83,11 @@ namespace Res
                 _id2CallBack.Remove(id);
                 cb?.Invoke(ab);
             }
+        }
+
+        public String getNameWithHash(String bundleName)
+        {
+            return name2nameWithHash[bundleName];
         }
     }
 }
