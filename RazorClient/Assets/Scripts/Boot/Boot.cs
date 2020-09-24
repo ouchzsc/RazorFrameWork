@@ -7,8 +7,11 @@ public class Boot : MonoBehaviour
     private LuaFunction luaStart;
     private LuaFunction luaUpdate;
 
+    public static Boot inst;
+
     private void Awake()
     {
+        inst = this;
         csModules.init();
 
         luaMain = csModules.luaManager.luaRequire("main");

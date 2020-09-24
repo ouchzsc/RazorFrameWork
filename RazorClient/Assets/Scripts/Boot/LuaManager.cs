@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
+﻿using System.IO;
 using XLua;
 
 public class LuaManager
