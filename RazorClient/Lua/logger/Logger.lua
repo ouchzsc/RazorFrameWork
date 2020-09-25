@@ -45,6 +45,7 @@ function Logger:setEnable(active)
     else
         PlayerPrefs.SetInt(key, 0)
     end
+    return self
 end
 
 function Logger:setTracebackEnable(active)

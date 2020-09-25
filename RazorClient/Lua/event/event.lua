@@ -4,6 +4,8 @@ local event = {}
 function event.init()
     event.onUpdate = SimpleEvent:new()
     event.onKeyDown = SimpleEvent:new()
+    event.onSceneLoaded = SimpleEvent:new()
+    event.onSceneUnloaded = SimpleEvent:new()
 end
 
 return event

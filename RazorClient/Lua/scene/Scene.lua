@@ -1,37 +1,69 @@
-local ASyncObject = require("common.ASyncObject")
-local bundleDepMgr = CS.Res.BundleDepMgr.Instance
+local Object = require("common.Object")
+local utils = require("common.injectUtils")
 
----@class scene.Scene:common.ASyncObject
-local Scene = ASyncObject:new()
+---@class scene.Scene:Object
+local Scene = Object:new()
 
-function Scene:init(bundleName, sceneName)
-    self.bundleName = bundleName
-    self.sceneName = sceneName
-    self.loader = nil
+---@public
+function Scene:init()
+    self.isEnabled = false
 end
 
-function Scene:loadRes(callBack)
-    self.loader = bundleDepMgr:loadBundleAndDependency(self.bundleName, function(ab)
-        CS.UnityEngine.SceneManagement.SceneManager.LoadScene(self.sceneName)
-        callBack(ab)
-    end)
+---@public
+function Scene:reg(simpleevt, handler)
+    utils.reg(self, simpleevt, handler)
 end
 
-function Scene:unloadRes(res)
-    self.loader()
-    self.loader = nil
+---@public
+function Scene:unRegAllEvent()
+    utils.unRegAllEvent(self)
 end
 
-function Scene:onASyncObjectEnable(res)
-    if self.onEnable then
+function Scene:scheduleTimer(fixid, delay, task, ...)
+    utils.scheduleTimer(self, fixid, delay, task, ...)
+end
+
+---@public
+function Scene:scheduleTimerAtFixedRate(fixid, delay, period, task, ...)
+    utils.scheduleTimerAtFixedRate(self, fixid, delay, period, task, ...)
+end
+
+---@public
+function Scene:unScheduleAllTimer()
+    utils.unScheduleAllTimer(self)
+end
+
+---@public
+function Scene:show()
+    if not self.isEnabled then
+        self.isEnabled = true
         self:onEnable()
     end
+    self:onShow()
 end
 
-function Scene:onASyncObjectDisable()
-    if self.onDisable then
+---@public
+function Scene:hide()
+    if self.isEnabled then
         self:onDisable()
+        self:unRegAllEvent()
+        self:unScheduleAllTimer()
     end
+end
+
+---@protected
+function Scene:onEnable()
+
+end
+
+---@protected
+function Scene:onDisable()
+
+end
+
+---@protected
+function Scene:onShow()
+
 end
 
 return Scene

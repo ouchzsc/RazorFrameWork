@@ -6,7 +6,7 @@ function module.requireModules()
     module.input = require("input.input")
     module.testInvoker = require("test.testInvoker")
     module.time = require("time.time")
-
+    module.sceneMgr = require("scene.sceneMgr")
 end
 
 function module.initModules()
@@ -15,6 +15,7 @@ function module.initModules()
     module.input.init()
     module.testInvoker.init()
     module.time.init()
+    module.sceneMgr.init()
 end
 
 return module
