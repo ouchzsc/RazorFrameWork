@@ -1,7 +1,6 @@
 local assetMgr = CS.Res.AssetMgr.Instance
 local bundleMgr = CS.Res.BundleMgr.Instance
 local bundleDepMgr = CS.Res.BundleDepMgr.Instance
-local LV2 = require("scene.LV2")
 local module = require("module")
 local test = {}
 

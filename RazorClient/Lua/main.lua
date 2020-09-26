@@ -6,6 +6,7 @@ local main = {}
 function main.onStart()
     module.requireModules()
     module.initModules()
+    module.sceneMgr.switch("s1", "s1")
 end
 
 function main.onUpdate()
