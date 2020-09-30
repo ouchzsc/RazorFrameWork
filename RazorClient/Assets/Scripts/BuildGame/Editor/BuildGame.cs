@@ -16,7 +16,7 @@ public class BuildGame
     static string luaDir = "Lua";
     static string luaDest = System.IO.Path.Combine(buildDir, luaDir);
 
-    [MenuItem("MyTools/Windows Build With Postprocess", false, 0)]
+    [MenuItem("Ouchz/Windows Build With Postprocess", false, 0)]
     public static void Build()
     {
         FileUtil.DeleteFileOrDirectory(luaDest);

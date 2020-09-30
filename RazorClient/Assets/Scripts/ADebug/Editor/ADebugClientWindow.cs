@@ -8,7 +8,7 @@ namespace ADebugger
 {
     public class ADebugClientWindow : EditorWindow
     {
-        [MenuItem("WorldGame/lua远程调试器", false, 101)]
+        [MenuItem("Ouchz/lua远程调试器", false, 101)]
         public static void Init()
         {
             ADebugClientWindow window = GetWindow<ADebugClientWindow>("lua远程调试器");

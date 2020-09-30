@@ -5,7 +5,7 @@ namespace ResUpdate.Editor
 {
     public static class CacheEditor
     {
-        [MenuItem("WorldGame/Browse Cache")]
+        [MenuItem("Ouchz/Browse Cache")]
         public static void OpenCache()
         {
             System.Diagnostics.Process.Start("explorer.exe", Application.temporaryCachePath.Replace('/','\\'));
