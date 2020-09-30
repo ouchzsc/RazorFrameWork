@@ -1,8 +1,7 @@
 local sceneMgr = {}
 local SceneUtils = CS.SceneUtils
-local SceneManager = CS.UnityEngine.SceneManagement.SceneManager
 local module = require("module")
-local bundleDepMgr = CS.Res.BundleDepMgr.Instance
+local resUtils = require("res.resUtils")
 
 local scenesLoaded = {}
 local lastSceneName
@@ -14,9 +13,8 @@ function sceneMgr.switch(bundleName, sceneName)
     elseif lastSceneName == sceneName then
         return
     end
-
     lastSceneName = sceneName
-    lastSceneLoader = bundleDepMgr:loadBundleAndDependency(bundleName, function(ab)
+    lastSceneLoader = resUtils.loadBundleAndDependency(bundleName, function(ab)
         SceneUtils.loadScene(sceneName)
     end)
 end

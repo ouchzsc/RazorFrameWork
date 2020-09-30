@@ -1,19 +1,11 @@
-local assetMgr = CS.Res.AssetMgr.Instance
-local bundleMgr = CS.Res.BundleMgr.Instance
-local bundleDepMgr = CS.Res.BundleDepMgr.Instance
 local module = require("module")
+local resUtils = require("res.resUtils")
 local test = {}
 
 function test.f5()
-    --assetMgr:loadAsset("capsule", "Capsule", function(asset)
-    --    CS.UnityEngine.GameObject.Instantiate(asset)
-    --end)
-    --loader = bundleDepMgr:loadBundleAndDependency("s1", function(ab)
-    --    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("s1")
-    --end)
-    --bundleMgr:loadBundle("s1",function (ab)
-    --    --CS.UnityEngine.SceneManager.LoadScene("s1")
-    --end)
+    resUtils.loadAssetByPath("Assets/Res/TestGO.prefab", function(asset)
+        CS.UnityEngine.GameObject.Instantiate(asset)
+    end)
 end
 
 function test.f6()
@@ -21,16 +13,11 @@ function test.f6()
 end
 
 function test.f7()
-    --local asset = require("cfgGen.asset.asset")
-    --print(asset.DOG.eName)
-    --loader = bundleMgr:loadBundle("s1", function(ab)
-    --    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("s1")
-    --    loader()
-    --end)
+
 end
 
 function test.f8()
-    bundleMgr:dump()
+    resUtils.dump()
 end
 
 return test
