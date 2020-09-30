@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -43,11 +44,6 @@ public class SceneUtils
     }
 
     [LuaCallCSharp]
-    public static void generateTilemap(string sceneName)
-    {
-    }
-
-    [LuaCallCSharp]
     public static void saveMap(Grid grid)
     {
         var tileSceneJson = new TileSceneJson {sceneName = SceneManager.GetActiveScene().name};
@@ -65,7 +61,10 @@ public class SceneUtils
                 var tile = tilemap.GetTile(pos);
                 if (tile != null)
                 {
-                    var tileJson = new TileJson {x = pos.x, y = pos.y, id = tile.name};
+                    var assetPath = AssetDatabase.GetAssetPath(tile);
+                    var assetBundleName = AssetImporter.GetAtPath(assetPath).assetBundleName;
+                    var tileJson = new TileJson
+                        {x = pos.x, y = pos.y, bundle = assetBundleName, asset = tile.name};
                     tilemapJson.tiles.Add(tileJson);
                 }
             }
