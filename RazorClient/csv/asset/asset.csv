@@ -1,2 +1,10 @@
-1,asset/icon/dog.png,DOG,bundle/icon,dog
-2,asset/icon/cat.png,CAT,bundle/icon,cat
+##assetPath,bundleName,assetName,type
+Assets/Res/Boot/LuaBoot.prefab,boot,LuaBoot,.prefab
+Assets/Res/Scene1/s1.unity,s1,s1,.unity
+Assets/Res/TestGO.prefab,testgo,TestGO,.prefab
+Assets/Res/Scene1/img/grass.asset,tile,grass,.asset
+Assets/Res/Scene1/img/grass.png,tile,grass,.png
+Assets/Res/Scene1/img/ground.asset,tile,ground,.asset
+Assets/Res/Scene1/img/ground.png,tile,ground,.png
+Assets/Res/Scene1/img/stone.asset,tile,stone,.asset
+Assets/Res/Scene1/img/stone.png,tile,stone,.png
