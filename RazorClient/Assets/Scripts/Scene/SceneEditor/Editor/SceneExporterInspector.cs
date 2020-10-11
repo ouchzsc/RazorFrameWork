@@ -26,7 +26,7 @@ public class SceneExporterInspector : Editor
     {
         if (GUILayout.Button("保存场景"))
         {
-            SceneUtils.saveMap(grid);
+            SceneEditorUtils.saveMap(grid);
         }
 
         if (GUILayout.Button("导入场景Json"))
