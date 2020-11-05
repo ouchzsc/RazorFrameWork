@@ -21,10 +21,11 @@
 --嵌套：
 --为了框架简单，ASyncObject这层不支持自动嵌套，用户自己创建子对象，调用子对象的show hide,需要确保show hide 的一致性。
 --要封装的话去下层封装
-local injectUtils = require("common.injectUtils")
+local eventUtils = require("event.eventUtils")
+local timerUtils = require("time.timerUtils")
 
----@class common.ASyncObject
-local ASyncObject = require("common.Object"):new()
+---@class common.ASyncObject:Object
+local ASyncObject = require("obj.Abstract.Object"):extends()
 
 function ASyncObject:init()
     self.__res = nil
@@ -98,33 +99,33 @@ function ASyncObject:__hideWithRes()
     end
     self:unloadRes(self.__res)
     self.__res = nil
-    injectUtils.unRegAllEvent(self)
-    injectUtils.unScheduleAllTimer(self)
+    eventUtils.unRegAllEvent(self)
+    timerUtils.unScheduleAllTimer(self)
 end
 
 ---@public
 function ASyncObject:reg(simpleevt, handler)
-    injectUtils.reg(self, simpleevt, handler)
+    eventUtils.reg(self, simpleevt, handler)
 end
 
 ---@public
 function ASyncObject:scheduleTimer(fixid, delay, task, ...)
-    injectUtils.scheduleTimer(self, fixid, delay, task, ...)
+    timerUtils.scheduleTimer(self, fixid, delay, task, ...)
 end
 
 ---@public
 function ASyncObject:scheduleTimerAtFixedRate(fixid, delay, period, task, ...)
-    injectUtils.scheduleTimerAtFixedRate(self, fixid, delay, period, task, ...)
+    timerUtils.scheduleTimerAtFixedRate(self, fixid, delay, period, task, ...)
 end
 
 ---@public
 function ASyncObject:unRegAllEvent()
-    injectUtils.unRegAllEvent(self)
+    eventUtils.unRegAllEvent(self)
 end
 
 ---@public
 function ASyncObject:unScheduleAllTimer()
-    injectUtils.unScheduleAllTimer(self)
+    timerUtils.unScheduleAllTimer(self)
 end
 
 ---@protected

@@ -1,23 +1,34 @@
 local module = require("module")
 local resUtils = require("res.resUtils")
+local ASyncGameObject = require("obj.ASyncGameObject")
 local test = {}
 
 function test.f5()
-    resUtils.loadAssetByPath("Assets/Res/TestGO.prefab", function(asset)
-        CS.UnityEngine.GameObject.Instantiate(asset)
-    end)
+    --local s = resUtils.loadAssetByPath("Assets/Res/TestGO.prefab", function(asset, f)
+    --    CS.UnityEngine.GameObject.Instantiate(asset)
+    --    f()
+    --end)
+    goObj = ASyncGameObject:new()
+    goObj:setAssetInfo("Assets/Res/TestGO.prefab")
+    goObj:show()
+
+
 end
 
 function test.f6()
-    module.sceneMgr.switch("s1", "s1")
+    goObj2 = ASyncGameObject:new()
+    goObj2:setAssetInfo("Assets/Res/TestGO.prefab")
+    goObj2:show()
+    --module.sceneMgr.switch("s1", "s1")
 end
 
 function test.f7()
-
+    goObj:hide()
 end
 
 function test.f8()
-    resUtils.dump()
+    goObj2:hide()
+    --resUtils.dump()
 end
 
 return test

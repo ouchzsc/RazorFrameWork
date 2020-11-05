@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -68,6 +69,9 @@ namespace Res
                 {
                     dispose();
                 }
+                _id2UnloadedCnt.Remove(id);
+                _id2AssetBundle.Remove(id);
+                _id2CallBack.Remove(id);
             };
         }
 
@@ -88,6 +92,17 @@ namespace Res
         public String getNameWithHash(String bundleName)
         {
             return name2nameWithHash[bundleName];
+        }
+        
+        public void dump()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"_id2UnloadedCnt:{_id2UnloadedCnt.Count} _id2AssetBundle:{_id2AssetBundle.Count} _id2CallBack:{_id2CallBack.Count}\n");
+            foreach (var p in _id2CallBack)
+            {
+                sb.Append($"{p.Key}\n");
+            }
+            Debug.Log(sb);
         }
     }
 }

@@ -22,6 +22,8 @@ end
 
 function resUtils.dump()
     bundleMgr:dump()
+    assetMgr:dump()
+    bundleDepMgr:dump()
 end
 
 return resUtils

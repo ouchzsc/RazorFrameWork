@@ -48,10 +48,11 @@ namespace ResUpdate
         private void OnBtnEnterGame()
         {
             Destroy(gameObject);
-            AssetMgr.Instance.loadAsset("boot", "LuaBoot", asset =>
+            AssetMgr.Instance.loadAsset("boot", "LuaBoot", (asset,free) =>
             {
                 Debug.Log("load done luaBoot");
-                GameObject go = GameObject.Instantiate(asset as GameObject);
+                GameObject.Instantiate(asset as GameObject);
+//                free.Invoke();
             });
         }
 

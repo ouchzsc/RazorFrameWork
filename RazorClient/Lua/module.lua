@@ -5,8 +5,9 @@ function module.requireModules()
     module.event = require("event.event")
     module.input = require("input.input")
     module.testInvoker = require("test.testInvoker")
-    module.time = require("time.time")
+    module.timerMgr = require("time.timerMgr")
     module.sceneMgr = require("scene.sceneMgr")
+    module.poolMgr = require("pool.poolMgr")
 end
 
 function module.initModules()
@@ -14,8 +15,9 @@ function module.initModules()
     module.event.init()
     module.input.init()
     module.testInvoker.init()
-    module.time.init()
+    module.timerMgr.init()
     module.sceneMgr.init()
+    module.poolMgr.init()
 end
 
 return module

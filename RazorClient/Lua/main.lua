@@ -14,7 +14,7 @@ end
 function main.onUpdate()
     local dt = Time.deltaTime
     module.event.onUpdate:trigger(dt)
-    module.time.onUpdate(dt)
+    module.timerMgr.onUpdate(dt)
 end
 
 return main

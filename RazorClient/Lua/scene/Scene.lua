@@ -1,8 +1,7 @@
-local Object = require("common.Object")
-local utils = require("common.injectUtils")
+local utils = require("event.eventUtils")
 
 ---@class scene.Scene:Object
-local Scene = Object:new()
+local Scene = require("obj.Abstract.Object"):extends()
 
 ---@public
 function Scene:init()
