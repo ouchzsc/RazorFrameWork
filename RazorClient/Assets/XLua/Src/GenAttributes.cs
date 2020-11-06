@@ -144,6 +144,7 @@ namespace XLua
                     typeof(UnityEngine.Ray),
                     typeof(UnityEngine.Bounds),
                     typeof(UnityEngine.Ray2D),
+                    typeof(UnityEngine.KeyCode),
                 };
             }
         }

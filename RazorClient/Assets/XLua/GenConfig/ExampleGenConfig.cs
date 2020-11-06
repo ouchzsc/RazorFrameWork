@@ -49,7 +49,8 @@ public static class ExampleGenConfig
                 typeof(Mathf),
                 typeof(List<int>),
                 typeof(Action<string>),
-                typeof(Debug)
+                typeof(Debug),
+                typeof(Input),
             };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
