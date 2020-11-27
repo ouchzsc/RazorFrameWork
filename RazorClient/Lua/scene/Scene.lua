@@ -44,6 +44,7 @@ end
 ---@public
 function Scene:hide()
     if self.isEnabled then
+        self.isEnabled = false
         self:onDisable()
         self:unRegAllEvent()
         self:unScheduleAllTimer()

@@ -1,6 +1,6 @@
 local module = {}
 
-function module.requireModules()
+function module.init()
     module.loggers = require("logger.loggers")
     module.event = require("event.event")
     module.input = require("input.input")
@@ -8,16 +8,17 @@ function module.requireModules()
     module.timerMgr = require("time.timerMgr")
     module.sceneMgr = require("scene.sceneMgr")
     module.poolMgr = require("pool.poolMgr")
-end
+    module.scenes = require("scene.scenes")
 
-function module.initModules()
-    module.loggers.init()
-    module.event.init()
-    module.input.init()
-    module.testInvoker.init()
-    module.timerMgr.init()
-    module.sceneMgr.init()
-    module.poolMgr.init()
+    module.event.init0()
+
+    for _, m in pairs(module) do
+        if type(m) == "table" then
+            if m.init then
+                m.init()
+            end
+        end
+    end
 end
 
 return module

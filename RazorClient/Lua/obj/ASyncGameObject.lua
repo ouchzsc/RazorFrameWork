@@ -1,3 +1,4 @@
+---@class ASyncGameObject:ASyncGameObject
 local ASyncGameObject = require("obj.Abstract.ASyncObject"):new()
 local module = require("module")
 local pool = module.poolMgr.defaultGoPool
