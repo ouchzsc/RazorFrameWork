@@ -50,7 +50,6 @@ namespace ResUpdate
             Destroy(gameObject);
             AssetMgr.Instance.loadAsset("boot", "LuaBoot", (asset,free) =>
             {
-                Debug.Log("load done luaBoot");
                 GameObject.Instantiate(asset as GameObject);
 //                free.Invoke();
             });

@@ -46,8 +46,8 @@ namespace Res
             var asset = req.asset;
             var cb = _id2Callback[id];
             var releaseAction = _id2ReleaseAction[id];
-            _id2Callback.Remove(id);
-            _id2ReleaseAction.Remove(id);
+            //_id2Callback.Remove(id);
+            //_id2ReleaseAction.Remove(id);
             cb?.Invoke(asset, releaseAction);
         }
 

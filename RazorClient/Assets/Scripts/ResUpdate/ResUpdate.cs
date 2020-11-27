@@ -30,6 +30,8 @@ namespace ResUpdate
 
         public Action onDownloadError;
 
+        public bool printLog = false;
+
         public static ResUpdate Instance { get; private set; }
 
         public void Awake()
@@ -47,7 +49,7 @@ namespace ResUpdate
         {
             var uri = $"http://{ipAddress}:{port}/{Path.Combine("StandaloneWindows", "StandaloneWindows")}";
             var request = UnityWebRequestAssetBundle.GetAssetBundle(uri);
-            Debug.Log($"down load manifest {uri}");
+            log($"down load manifest {uri}");
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
             {
@@ -65,7 +67,7 @@ namespace ResUpdate
         private void OnManifestLoadDone(AssetBundleManifest ab)
         {
             BundleDepMgr.Instance.Manifest = ab;
-            Debug.Log($"manifest load done: {ab}");
+            log($"manifest load done: {ab}");
             var allBundles = ab.GetAllAssetBundles();
             _totalBundleCnt = allBundles.Length;
             
@@ -75,7 +77,7 @@ namespace ResUpdate
 
                 if (File.Exists(pathInStreamAs))
                 {
-                    Debug.Log($"{bundlePath} in streaming Assets");
+                    log($"{bundlePath} in streaming Assets");
                     ConfirmBundle(bundlePath, BundlePos.InStreamingAsset);
                     continue;
                 }
@@ -83,7 +85,7 @@ namespace ResUpdate
                 var pathInCache = Path.Combine(Application.temporaryCachePath, "StandaloneWindows", bundlePath);
                 if (File.Exists(pathInCache))
                 {
-                    Debug.Log($"{bundlePath} in cache");
+                    log($"{bundlePath} in cache");
                     ConfirmBundle(bundlePath, BundlePos.InCache);
                     continue;
                 }
@@ -99,7 +101,7 @@ namespace ResUpdate
             bundleName2Pos.Add(bundleName, pos);
             if (_bundleConfirmedCnt == _totalBundleCnt)
             {
-                Debug.Log("bundle确认完成");
+                log("bundle确认完成");
             }
 
             onBundleUpdate?.Invoke(bundleName, Progess);
@@ -108,7 +110,7 @@ namespace ResUpdate
         private IEnumerator DownloadAndSave(string bundlePath)
         {
             var uri = $"http://{ipAddress}:{port}/StandaloneWindows/{bundlePath}";
-            Debug.Log($"download:{uri}");
+            log($"download:{uri}");
             UnityWebRequest request = UnityWebRequest.Get(uri);
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
@@ -124,8 +126,19 @@ namespace ResUpdate
                     Directory.CreateDirectory(fullFolder);
                 var fullName = Path.Combine(fullFolder, fileName);
                 File.WriteAllBytes(fullName, request.downloadHandler.data);
-                Debug.Log($"save file:{fullName}");
+                log($"save file:{fullName}");
                 ConfirmBundle(bundlePath, BundlePos.InCache);
+            }
+        }
+
+        public void log(object message, UnityEngine.Object context = null)
+        {
+            if (printLog)
+            {
+                if (context == null)
+                    Debug.Log(message);
+                else
+                    Debug.Log(message, context);
             }
         }
     }
