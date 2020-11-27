@@ -18,6 +18,7 @@ function input.update()
     if Input.GetKeyDown(KeyCode.F8) then
         event.onKeyDown:trigger(KeyCode.F8)
     end
+
 end
 
 function input.init()

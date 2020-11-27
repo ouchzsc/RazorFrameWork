@@ -1,6 +1,7 @@
 local module = require("module")
 local resUtils = require("res.resUtils")
 local ASyncGameObject = require("obj.ASyncGameObject")
+local Player =require("player.Player")
 local test = {}
 
 function test.f5()
@@ -8,17 +9,17 @@ function test.f5()
     --    CS.UnityEngine.GameObject.Instantiate(asset)
     --    f()
     --end)
-    goObj = ASyncGameObject:new()
-    goObj:setAssetInfo("Assets/Res/TestGO.prefab")
-    goObj:show()
-
+    local player = Player:new()
+    player:setAssetInfo("Assets/Res/TestGO.prefab")
+    player:show()
 
 end
 
 function test.f6()
-    goObj2 = ASyncGameObject:new()
-    goObj2:setAssetInfo("Assets/Res/TestGO.prefab")
-    goObj2:show()
+    package.loaded["player.PlayerInfo"] =nil
+    --goObj2 = ASyncGameObject:new()
+    --goObj2:setAssetInfo("Assets/Res/TestGO.prefab")
+    --goObj2:show()
     --module.sceneMgr.switch("s1", "s1")
 end
 

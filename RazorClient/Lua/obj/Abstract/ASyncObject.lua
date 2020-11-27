@@ -24,10 +24,10 @@
 local eventUtils = require("event.eventUtils")
 local timerUtils = require("time.timerUtils")
 
----@class common.ASyncObject:Object
+---@class ASyncObject:Object
 local ASyncObject = require("obj.Abstract.Object"):extends()
 
-function ASyncObject:init()
+function ASyncObject:onNew()
     self.__res = nil
     self.__isLoading = nil
     self.__wishEnable = nil
