@@ -4,6 +4,7 @@ local poolMgr = {}
 
 function poolMgr.init()
     poolMgr.defaultGoPool = GoPool:new()
+    poolMgr.defaultGoPool:setSize(0)
 end
 
 return poolMgr

@@ -1,9 +1,8 @@
----@class ASyncGameObject:ASyncGameObject
+---@class ASyncGameObject:ASyncObject
 local ASyncGameObject = require("obj.Abstract.ASyncObject"):new()
 local module = require("module")
 local pool = module.poolMgr.defaultGoPool
 
----@class ASyncGameObject:ASyncObject
 function ASyncGameObject:setAssetInfo(assetPath)
     self.assetPath = assetPath
 end

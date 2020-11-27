@@ -19,6 +19,7 @@ end
 local function createScene(cls, sceneName)
     local sceneObj = cls:new()
     name2SceneObj[sceneName] = sceneObj
+    return sceneObj
 end
 
 function scenes.init()

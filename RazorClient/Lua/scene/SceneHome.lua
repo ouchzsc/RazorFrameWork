@@ -1,8 +1,9 @@
 local SceneHome = require("scene.Scene"):new()
 local module = require("module")
-local PlayerObj = require("player.PlayerObj")
+local PlayerObj = require("player.Player")
 
 function SceneHome:onEnable()
+    print("SceneHome:onEnable()")
     self.player = PlayerObj:new()
     self.player:setAssetInfo("Assets/Res/TestGO.prefab")
     self.player:show()
