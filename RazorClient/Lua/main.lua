@@ -4,8 +4,7 @@ local module = require("module")
 local main = {}
 
 function main.onStart()
-    module.requireModules()
-    module.initModules()
+    module.init()
 
     local sceneCfg = require("cfgGen.asset.asset").get("Assets/Res/Scene1/s1.unity")
     module.sceneMgr.switch(sceneCfg.bundleName, sceneCfg.assetName)
