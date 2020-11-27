@@ -60,6 +60,7 @@ function GoPool:loadGo(assetPath, callBack)
     else
         resUtils.loadAssetByPath(assetPath, function(prefab, free)
             local go = GameObject.Instantiate(prefab)
+            GameObject.DontDestroyOnLoad(go)
             self.go2Free[go] = free
             callBack(go)
         end)
