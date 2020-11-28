@@ -12,13 +12,11 @@ function Bullet:setPos(x, y, z)
 end
 
 function Bullet:onEnable(gameObject)
-    ASyncGameObject.onEnable(self, gameObject)
     gameObject.transform.position = pos
     self:scheduleTimer("hideMe", "2", self.hide)
 end
 
 function Bullet:onDisable()
-    ASyncGameObject.onDisable(self)
     module.poolMgr.objPool:put(Bullet, self)
 end
 

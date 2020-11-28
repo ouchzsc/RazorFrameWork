@@ -2,9 +2,10 @@ local ASyncGameObject = require("obj.ASyncGameObject")
 local module = require("module")
 local Input = CS.UnityEngine.Input
 local KeyCode = CS.UnityEngine.KeyCode
-
 local playerUtils = require("player.playerUtils")
-local pos = {x=1,y=1,z=0}
+local movePosition = CS.TransformUtils.movePosition
+local Bullet = require("bullet.Bullet")
+
 ---@class Player:ASyncGameObject
 local Player = ASyncGameObject:extends()
 
@@ -17,9 +18,10 @@ function Player:onNew()
 end
 
 function Player:onEnable(gameObject)
-    --print("Player:onEnable(gameObject)")
     self.transform = gameObject.transform
+    self.spriteRenderer = gameObject:GetComponent("SpriteRenderer")
     self:reg(module.event.onUpdate, self.onUpdate)
+    self:reg(module.event.onMouseButtonDown, self.onMouseButtonDown)
 end
 
 function Player:onUpdate(dt)
@@ -48,12 +50,19 @@ function Player:onUpdate(dt)
 
     self.vx = playerUtils.calc(self.vx, inputDirX, VxMax, v_add * dt, dv_release * dt, dv_press * dt)
     self.vy = playerUtils.calc(self.vy, inputDirY, VyMax, v_add * dt, dv_release * dt, dv_press * dt)
+    movePosition(self.transform, self.vx * dt, self.vy * dt, 0)
+    if self.vx > 0 then
+        self.spriteRenderer.flipX = false
+    elseif self.vx < 0 then
+        self.spriteRenderer.flipX = true
+    end
+end
 
-    local pos = self.transform.position
-    pos.x = pos.x + self.vx * dt
-    pos.y = pos.y + self.vy * dt
-    self.transform.position = pos
-    --module.loggers.default:info("%s,%s,%s,%s,%s", inputDirX, inputDirY, self.vx, self.vy, pos)
+function Player:onMouseButtonDown(mouseId, x, y, z)
+    local bullet = module.poolMgr.objPool:getOrCreate(Bullet) ---@type Bullet
+    bullet:setAssetInfo("Assets/Res/Common/bullet.prefab")
+    bullet:setPos(0, 0, 0)
+    bullet:show()
 end
 
 function Player:getPlayerInfo()
