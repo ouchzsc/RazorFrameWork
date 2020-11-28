@@ -13,14 +13,9 @@ local name2ref = {}
 
 local data = {
     ["Assets/Res/Boot/LuaBoot.prefab"] = { "Assets/Res/Boot/LuaBoot.prefab", "boot", "LuaBoot", ".prefab", },
+    ["Assets/Res/Common/bullet.prefab"] = { "Assets/Res/Common/bullet.prefab", "common", "bullet", ".prefab", },
+    ["Assets/Res/Common/go_player.prefab"] = { "Assets/Res/Common/go_player.prefab", "common", "go_player", ".prefab", },
     ["Assets/Res/Scene1/s1.unity"] = { "Assets/Res/Scene1/s1.unity", "s1", "s1", ".unity", },
-    ["Assets/Res/TestGO.prefab"] = { "Assets/Res/TestGO.prefab", "testgo", "TestGO", ".prefab", },
-    ["Assets/Res/Scene1/img/grass.asset"] = { "Assets/Res/Scene1/img/grass.asset", "tile", "grass", ".asset", },
-    ["Assets/Res/Scene1/img/grass.png"] = { "Assets/Res/Scene1/img/grass.png", "tile", "grass", ".png", },
-    ["Assets/Res/Scene1/img/ground.asset"] = { "Assets/Res/Scene1/img/ground.asset", "tile", "ground", ".asset", },
-    ["Assets/Res/Scene1/img/ground.png"] = { "Assets/Res/Scene1/img/ground.png", "tile", "ground", ".png", },
-    ["Assets/Res/Scene1/img/stone.asset"] = { "Assets/Res/Scene1/img/stone.asset", "tile", "stone", ".asset", },
-    ["Assets/Res/Scene1/img/stone.png"] = { "Assets/Res/Scene1/img/stone.png", "tile", "stone", ".png", },
 }
 
 ---@return asset.asset

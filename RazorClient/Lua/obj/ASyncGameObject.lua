@@ -20,14 +20,19 @@ function ASyncGameObject:getPool()
 end
 
 function ASyncGameObject:onASyncObjectEnable(res)
-    self.go = res
-    res:SetActive(true)
-    if self.onEnable then
-        self:onEnable(res)
-    end
+    self:onEnable(res)
 end
 
 function ASyncGameObject:onASyncObjectDisable()
+    self:onDisable()
+end
+
+function ASyncGameObject:onEnable(gameObject)
+    gameObject:SetActive(true)
+    self.go = gameObject
+end
+
+function ASyncGameObject:onDisable()
     self.go:SetActive(false)
     self.go = nil
 end

@@ -1,5 +1,6 @@
 local StreamMap = require("common.StreamMap")
 local Timer = {}
+local module = require("module")
 
 function Timer:new()
     local instance = {}
@@ -29,18 +30,33 @@ function Timer:_get(id)
     if id then
         timer = self._allTimers:Get(id)
         if timer == nil then
-            timer = {}
+            timer = module.poolMgr.timerPool:getOrCreate("timer")
         end
     else
         id = self.lastid + 1
         self.lastid = id
-        timer = {}
+        timer = module.poolMgr.timerPool:getOrCreate("timer")
     end
     return id, timer
 end
 
+local function recycle(timer)
+    timer.arg1 = nil
+    timer.arg2 = nil
+    timer.arg3 = nil
+    timer.arg4 = nil
+    timer.once = nil
+    timer.remain = nil
+    timer.task = nil
+    timer.debugName = nil
+    module.poolMgr.timerPool:put("timer", timer)
+end
+
 function Timer:unschedule(timerid)
-    self._allTimers:Remove(timerid)
+    local timer = self._allTimers:Remove(timerid)
+    if timer then
+        recycle(timer)
+    end
 end
 
 ---@see sfweg
@@ -64,11 +80,12 @@ local function safeTimerEach(id, timer, self, det)
     if timer.remain <= 0 and timer.active then
         if timer.once then
             self._allTimers:Remove(id)
+            timer.task(timer.arg1, timer.arg2, timer.arg3, timer.arg4)
+            recycle(timer)
         else
             timer.remain = timer.period + timer.remain
+            timer.task(timer.arg1, timer.arg2, timer.arg3, timer.arg4)
         end
-        timer.task(timer.arg1, timer.arg2, timer.arg3, timer.arg4)
-
     else
         timer.active = true
     end

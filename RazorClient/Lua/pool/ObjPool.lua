@@ -1,26 +1,26 @@
----@class Pool:Object
-local Pool = require("obj.Abstract.Object"):extends()
+---@class ObjPool:Object
+local ObjPool = require("obj.Abstract.Object"):extends()
 
 ---@protected
-function Pool:onNew()
+function ObjPool:onNew()
     self.size = 1
     self.cnt = 0
     self.keys = {}
     self.objects = {}
 end
 
-function Pool:setSize(size)
+function ObjPool:setSize(size)
     self.size = size
 end
 
-function Pool:put(key, obj)
+function ObjPool:put(key, obj)
     table.insert(self.keys, key)
     table.insert(self.objects, obj)
     self.cnt = self.cnt + 1
     self:purge()
 end
 
-function Pool:get(key)
+function ObjPool:getOrCreate(key)
     local keys = self.keys
     local objects = self.objects
     for i = self.cnt, 1 do
@@ -32,9 +32,10 @@ function Pool:get(key)
             return obj
         end
     end
+    return key:new()
 end
 
-function Pool:purge(size)
+function ObjPool:purge(size)
     size = size or self.size
     local num = self.cnt - size
     if num <= 0 then
@@ -42,12 +43,9 @@ function Pool:purge(size)
     end
     for i = 1, num do
         table.remove(self.keys)
-        local obj = table.remove(self.objects)
-        if obj.onDispose then
-            obj:onDispose()
-        end
+        table.remove(self.objects)
     end
     self.cnt = self.cnt - num
 end
 
-return Pool
+return ObjPool

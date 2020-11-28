@@ -1,10 +1,17 @@
-local Pool = require("pool.Pool")
 local GoPool = require("pool.GoPool")
+local ObjPool = require("pool.ObjPool")
+local TablePool = require("pool.TablePool")
 local poolMgr = {}
 
 function poolMgr.init0()
     poolMgr.defaultGoPool = GoPool:new()
-    poolMgr.defaultGoPool:setSize(0)
+    poolMgr.defaultGoPool:setSize(10)
+
+    poolMgr.objPool = ObjPool:new()
+    poolMgr.objPool:setSize(10)
+
+    poolMgr.timerPool = TablePool:new()
+    poolMgr.timerPool:setSize(50)
 end
 
 return poolMgr
