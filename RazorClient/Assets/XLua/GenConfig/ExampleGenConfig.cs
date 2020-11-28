@@ -95,5 +95,6 @@ public static class ExampleGenConfig
                 new List<string>(){"UnityEngine.Light", "SetLightDirty"},
                 new List<string>(){"UnityEngine.Light", "shadowRadius"},
                 new List<string>(){"UnityEngine.Light", "shadowAngle"},
+                new List<string>() { "UnityEngine.Input", "IsJoystickPreconfigured", "System.String" },
             };
 }

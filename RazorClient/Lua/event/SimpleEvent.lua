@@ -35,9 +35,10 @@ function SimpleEvent:unreg(id)
         self.handlerId2ArgSelf[id] = nil
     end
 end
+local module = require("module")
 
 local function err(msg, lvl)
-    loggers.default:error(msg)
+     module.loggers.default:error(msg)
 end
 
 local function SafeTriggerEach(handler, id, eventSelf, ...)

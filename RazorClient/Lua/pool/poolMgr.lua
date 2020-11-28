@@ -2,7 +2,7 @@ local Pool = require("pool.Pool")
 local GoPool = require("pool.GoPool")
 local poolMgr = {}
 
-function poolMgr.init()
+function poolMgr.init0()
     poolMgr.defaultGoPool = GoPool:new()
     poolMgr.defaultGoPool:setSize(0)
 end

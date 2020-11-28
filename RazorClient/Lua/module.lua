@@ -11,6 +11,7 @@ function module.init()
     module.scenes = require("scene.scenes")
 
     module.event.init0()
+    module.poolMgr.init0()
 
     for _, m in pairs(module) do
         if type(m) == "table" then
