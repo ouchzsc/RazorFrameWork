@@ -23,7 +23,7 @@ end
 function TablePool:getOrCreate(key)
     local keys = self.keys
     local objects = self.objects
-    for i = self.cnt, 1 do
+    for i = self.cnt, 1,-1 do
         if keys[i] == key then
             local obj = objects[i]
             table.remove(keys, i)
