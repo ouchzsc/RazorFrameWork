@@ -5,6 +5,8 @@ local KeyCode = CS.UnityEngine.KeyCode
 local playerUtils = require("player.playerUtils")
 local movePosition = CS.TransformUtils.movePosition
 local Bullet = require("bullet.Bullet")
+local Camera = CS.UnityEngine.Camera
+local getWorldPosFromScreen = CS.CameraUtils.getWorldPosFromScreen
 
 ---@class Player:ASyncGameObject
 local Player = ASyncGameObject:extends()
@@ -60,8 +62,9 @@ end
 
 function Player:onMouseButtonDown(mouseId, x, y, z)
     local bullet = module.poolMgr.objPool:getOrCreate(Bullet) ---@type Bullet
+    local bx, by, bz = getWorldPosFromScreen(Camera.main, x, y, z)
     bullet:setAssetInfo("Assets/Res/Common/bullet.prefab")
-    bullet:setPos(0, 0, 0)
+    bullet:setPos(bx, by, 0)
     bullet:show()
 end
 
