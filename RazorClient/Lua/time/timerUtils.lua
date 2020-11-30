@@ -40,7 +40,9 @@ function timerUtils.unScheduleAllTimer(obj)
         for _, id in pairs(obj.__timer_fixedids) do
             module.timerMgr.globalTimer:unschedule(id)
         end
-        obj.__timer_fixedids = nil
+        for k, v in pairs(obj.__timer_fixedids) do
+            obj.__timer_fixedids[k] = nil
+        end
     end
 end
 

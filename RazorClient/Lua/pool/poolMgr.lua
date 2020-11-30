@@ -5,10 +5,10 @@ local poolMgr = {}
 
 function poolMgr.init0()
     poolMgr.defaultGoPool = GoPool:new()
-    poolMgr.defaultGoPool:setSize(10)
+    poolMgr.defaultGoPool:setSize(50)
 
     poolMgr.objPool = ObjPool:new()
-    poolMgr.objPool:setSize(10)
+    poolMgr.objPool:setSize(50)
 
     poolMgr.timerPool = TablePool:new()
     poolMgr.timerPool:setSize(50)

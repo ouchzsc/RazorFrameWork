@@ -7,8 +7,8 @@ function ASyncGameObject:setAssetInfo(assetPath)
     self.assetPath = assetPath
 end
 
-function ASyncGameObject:loadRes(callBack)
-    self:getPool():loadGo(self.assetPath, callBack)
+function ASyncGameObject:loadRes(callBack, param)
+    self:getPool():loadGo(self.assetPath, callBack, param)
 end
 
 function ASyncGameObject:unloadRes(go)

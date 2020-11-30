@@ -54,6 +54,7 @@ function Logger:setTracebackEnable(active)
     else
         PlayerPrefs.SetInt(key, 0)
     end
+    return self
 end
 
 ---@param formatString string | table

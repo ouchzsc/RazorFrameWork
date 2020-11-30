@@ -53,16 +53,16 @@ function GoPool:purge(size)
     self.cnt = self.cnt - num
 end
 
-function GoPool:loadGo(assetPath, callBack)
+function GoPool:loadGo(assetPath, callBack, param)
     local go = self:get(assetPath)
     if go then
-        callBack(go)
+        callBack(go, param)
     else
         resUtils.loadAssetByPath(assetPath, function(prefab, free)
             local go = GameObject.Instantiate(prefab)
             GameObject.DontDestroyOnLoad(go)
             self.go2Free[go] = free
-            callBack(go)
+            callBack(go, param)
         end)
     end
 end

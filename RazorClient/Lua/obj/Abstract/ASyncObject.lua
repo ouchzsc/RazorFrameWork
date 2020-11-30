@@ -49,9 +49,9 @@ function ASyncObject:show()
         self:__showWithRes()
     else
         self.__isLoading = true
-        self:loadRes(function(res)
+        self:loadRes(function(res, self)
             self:__onLoadedDone(res)
-        end)
+        end, self)
     end
 end
 
@@ -129,7 +129,7 @@ function ASyncObject:unScheduleAllTimer()
 end
 
 ---@protected
-function ASyncObject:loadRes(callBack)
+function ASyncObject:loadRes(callBack, param)
     error("loadRes 方法需要实现")
 end
 
