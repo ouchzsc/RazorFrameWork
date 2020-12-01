@@ -52,7 +52,7 @@ function Player:onUpdate(dt)
 
     self.vx = playerUtils.calc(self.vx, inputDirX, VxMax, v_add * dt, dv_release * dt, dv_press * dt)
     self.vy = playerUtils.calc(self.vy, inputDirY, VyMax, v_add * dt, dv_release * dt, dv_press * dt)
-    movePosition(self.transform, self.vx * dt, self.vy * dt, 0)
+    self.x, self.y = movePosition(self.transform, self.vx * dt, self.vy * dt, 0)
     if self.vx > 0 then
         self.spriteRenderer.flipX = false
     elseif self.vx < 0 then
@@ -61,10 +61,13 @@ function Player:onUpdate(dt)
 end
 
 function Player:onMouseButtonDown(mouseId, x, y, z)
+    if mouseId ~= 0 then
+        return
+    end
     local bullet = module.poolMgr.objPool:getOrCreate(Bullet) ---@type Bullet
-    local bx, by, bz = getWorldPosFromScreen(Camera.main, x, y, z)
+    local mouseX, mouseY = getWorldPosFromScreen(Camera.main, x, y, z)
     bullet:setAssetInfo("Assets/Res/Common/bullet.prefab")
-    bullet:setPos(bx, by, 0)
+    bullet:setTargetPos(self.x, self.y, mouseX, mouseY, self.getPlayerInfo().bulletSpeed)
     bullet:show()
 end
 

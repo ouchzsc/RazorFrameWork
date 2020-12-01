@@ -2,6 +2,8 @@ local module = require("module")
 local resUtils = require("res.resUtils")
 local ASyncGameObject = require("obj.ASyncGameObject")
 local Player = require("player.Player")
+local Stream = require("common.Stream")
+
 local test = {}
 
 function test.f5()
@@ -24,20 +26,16 @@ function test.f6()
 end
 
 function test.f7()
-    local t = { a = 1, b = 2, "a", "b", "c", "d" }
-    for k, v in pairs(t) do
-        print(k, v)
-    end
-    print("clear")
-    for k, v in pairs(t) do
-        print(k)
-        t[k] = nil
-    end
-    print("left")
-    for k, v in pairs(t) do
-        print(k, v)
-    end
-
+    local s = Stream:New()
+    s:Add("a")
+    s:Add("b")
+    s:Add("c")
+    s:Add("d")
+    s:Delete(3)
+    s:ForEach(function(e, id, x, y, z)
+        print(e, id)
+        print(x, y, z)
+    end, "x", "y", "z")
 end
 
 function test.f8()
