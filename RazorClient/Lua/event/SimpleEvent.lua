@@ -1,60 +1,84 @@
-local Stream = require("common.Stream")
-
----@class Core.Event.SimpleEvent
+---@class SimpleEvent
 local SimpleEvent = {}
 
 function SimpleEvent:new()
     local instance = {}
-    setmetatable(instance, SimpleEvent)
-    instance.listeners = Stream:New()
-    instance.handlerId2Arg1 = nil
-    SimpleEvent.__index = SimpleEvent
+    setmetatable(instance, self)
+    self.__index = self
+
+    instance.handlers = {}
+    instance.argSelfs = {}
+    instance.emptySlots = {}
+    instance.emptySlotsCnt = 0
+    instance.lastSlotIndex = 0
+
     return instance
 end
 
 function SimpleEvent:reg(handler, argSelf)
-    local id = self.listeners:Add(handler)
-    if argSelf then
-        if not self.handlerId2ArgSelf then
-            self.handlerId2ArgSelf = {}
-        end
-        self.handlerId2ArgSelf[id] = argSelf
-    end
-
-    return function()
-        self.listeners:Delete(id)
-        if self.handlerId2Arg1 then
-            self.handlerId2Arg1[id] = nil
-        end
-    end
-end
-
-function SimpleEvent:unreg(id)
-    self.listeners:Delete(id)
-    if self.handlerId2ArgSelf then
-        self.handlerId2ArgSelf[id] = nil
-    end
-end
-local module = require("module")
-
-local function err(msg, lvl)
-     module.loggers.default:error(msg)
-end
-
-local function SafeTriggerEach(handler, id, eventSelf, ...)
-    local argSelf
-    if eventSelf.handlerId2ArgSelf then
-        argSelf = eventSelf.handlerId2ArgSelf[id]
-    end
-
-    if argSelf then
-        xpcall(handler, err, argSelf, ...)
+    local uId
+    if self.emptySlotsCnt == 0 then
+        uId = self.lastSlotIndex + 1
+        self.lastSlotIndex = uId
     else
-        xpcall(handler, err, ...)
+        uId = self.emptySlots[self.emptySlotsCnt]
+        self.emptySlots[self.emptySlotsCnt] = nil
+        self.emptySlotsCnt = self.emptySlotsCnt - 1
     end
+    self.handlers[uId] = handler
+    self.argSelfs[uId] = argSelf
+    return uId
+end
+
+function SimpleEvent:unReg(uId)
+    self.handlers[uId] = nil
+    self.argSelfs[uId] = nil
+    table.insert(self.emptySlots, uId)
+    self.emptySlotsCnt = self.emptySlotsCnt + 1
+end
+
+local module = require("module")
+local function err(msg, lvl)
+    module.loggers.default:error(msg)
 end
 
 function SimpleEvent:trigger(...)
-    self.listeners:ForEach(SafeTriggerEach, self, ...)
+    if self.isTriggering then
+        return
+    end
+    self.isTriggering = true
+
+    self.tempHandlerList = self.tempHandlerList or {}
+    self.tempArgSelfList = self.tempArgSelfList or {}
+
+    local cnt = 0
+    for uId, handler in pairs(self.handlers) do
+        cnt = cnt + 1
+        self.tempHandlerList[cnt] = handler
+        self.tempArgSelfList[cnt] = self.argSelfs[uId]
+    end
+
+    for i = 1, cnt do
+        local handler = self.tempHandlerList[i]
+        local argSelf = self.tempArgSelfList[i]
+        if handler then
+            if not argSelf then
+                xpcall(handler, err, ...)
+            else
+                xpcall(handler, err, argSelf, ...)
+            end
+            self.tempHandlerList[i] = nil
+            self.tempArgSelfList[i] = nil
+        end
+    end
+    self.isTriggering = nil
 end
+
+function SimpleEvent:dump()
+    for uId, handler in pairs(self.handlers) do
+        local info = debug.getinfo(handler, "nS")
+        print(string.format("%s@%s", info.short_src, info.linedefined))
+    end
+end
+
 return SimpleEvent

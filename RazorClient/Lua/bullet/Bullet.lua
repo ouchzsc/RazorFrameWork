@@ -18,7 +18,7 @@ function Bullet:onEnable(gameObject)
     self.gameObject = gameObject
     self.gameObject.transform.position = self.pos
 
-    self:scheduleTimer("hideMe", "2", self.hide)
+    self:scheduleTimer("hideMe", "0.5", self.hide)
     self:reg(module.event.onUpdate, self.onUpdate)
     self.startTime = module.timerMgr.now
 end

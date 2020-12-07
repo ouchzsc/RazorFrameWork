@@ -11,10 +11,11 @@ function test.f5()
     --    CS.UnityEngine.GameObject.Instantiate(asset)
     --    f()
     --end)
-    local player = Player:new()
-    player:setAssetInfo("Assets/Res/TestGO.prefab")
-    player:show()
+    --local player = Player:new()
+    --player:setAssetInfo("Assets/Res/TestGO.prefab")
+    --player:show()
 
+    module.event.onUpdate:dump()
 end
 
 function test.f6()
