@@ -19,11 +19,11 @@ function ASyncGameObject:getPool()
     return pool
 end
 
-function ASyncGameObject:onASyncObjectEnable(res)
-    self.__go = res
-    res:SetActive(true)
+function ASyncGameObject:onASyncObjectEnable(gameObject)
+    self.__go = gameObject
+    gameObject:SetActive(true)
     if self.onEnable then
-        self:onEnable(res)
+        self:onEnable(gameObject)
     end
 end
 

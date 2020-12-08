@@ -15,6 +15,10 @@ function test.f5()
     --player:setAssetInfo("Assets/Res/TestGO.prefab")
     --player:show()
 
+    local monster = Monster:new()
+    monster:setAssetInfo("Assets/Res/TestGO.prefab")
+    monster:show()
+
     module.event.onUpdate:dump()
 end
 
@@ -27,16 +31,8 @@ function test.f6()
 end
 
 function test.f7()
-    local s = Stream:New()
-    s:Add("a")
-    s:Add("b")
-    s:Add("c")
-    s:Add("d")
-    s:Delete(3)
-    s:ForEach(function(e, id, x, y, z)
-        print(e, id)
-        print(x, y, z)
-    end, "x", "y", "z")
+    print(module.scenes.lv1.monster.transform)
+    print(module.scenes.lv1.monster.pos)
 end
 
 function test.f8()

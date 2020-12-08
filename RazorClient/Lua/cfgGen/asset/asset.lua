@@ -15,6 +15,7 @@ local data = {
     ["Assets/Res/Boot/LuaBoot.prefab"] = { "Assets/Res/Boot/LuaBoot.prefab", "boot", "LuaBoot", ".prefab", },
     ["Assets/Res/Common/bullet.prefab"] = { "Assets/Res/Common/bullet.prefab", "common", "bullet", ".prefab", },
     ["Assets/Res/Common/go_player.prefab"] = { "Assets/Res/Common/go_player.prefab", "common", "go_player", ".prefab", },
+    ["Assets/Res/Monster/monster.prefab"] = { "Assets/Res/Monster/monster.prefab", "common", "monster", ".prefab", },
     ["Assets/Res/Scene1/s1.unity"] = { "Assets/Res/Scene1/s1.unity", "s1", "s1", ".unity", },
 }
 
