@@ -25,7 +25,7 @@ local eventUtils = require("event.eventUtils")
 local timerUtils = require("time.timerUtils")
 
 ---@class ASyncObject:Object
-local ASyncObject = require("obj.Abstract.Object"):extends()
+local ASyncObject = require("obj.Object"):extends()
 
 function ASyncObject:onNew()
     self.__res = nil

@@ -8,6 +8,7 @@ function main.onStart()
 
     local sceneCfg = require("cfgGen.asset.asset").get("Assets/Res/Scene1/s1.unity")
     module.sceneMgr.switch(sceneCfg.bundleName, sceneCfg.assetName)
+    module.ui.panelTip:show()
 end
 
 function main.onUpdate()

@@ -4,8 +4,9 @@ local Input = CS.UnityEngine.Input
 local KeyCode = CS.UnityEngine.KeyCode
 local playerUtils = require("player.playerUtils")
 local movePosition = CS.TransformUtils.movePosition
-local Bullet = require("bullet.Bullet")
-local getWorldPosFromScreen = CS.CameraUtils.getWorldPosFromScreen
+
+local SimpleEvent = require("event.SimpleEvent")
+local Ability = require("ability.Ab_Shoot")
 
 ---@class Player:ASyncGameObject
 local Player = ASyncGameObject:extends()
@@ -16,6 +17,9 @@ function Player:onNew()
     self.y = 0
     self.vx = 0
     self.vy = 0
+    self.evt_attack = SimpleEvent:new()
+    self.ability = Ability:new()
+    self.ability:setPlayer(self)
 end
 
 function Player:onEnable(gameObject)
@@ -23,6 +27,12 @@ function Player:onEnable(gameObject)
     self.spriteRenderer = gameObject:GetComponent("SpriteRenderer")
     self:reg(module.event.onUpdate, self.onUpdate)
     self:reg(module.event.onMouseButtonDown, self.onMouseButtonDown)
+    self:reg(self.evt_attack, self.onAttack)
+    self.ability:show()
+end
+
+function Player:onDisable()
+    self.ability:hide()
 end
 
 function Player:onUpdate(dt)
@@ -63,11 +73,7 @@ function Player:onMouseButtonDown(mouseId, x, y, z)
     if mouseId ~= 0 then
         return
     end
-    local bullet = module.poolMgr.objPool:getOrCreate(Bullet) ---@type Bullet
-    local mouseX, mouseY = getWorldPosFromScreen(x, y, z)
-    bullet:setAssetInfo("Assets/Res/Common/bullet.prefab")
-    bullet:setTargetPos(self.x, self.y, mouseX, mouseY, self.getPlayerInfo().bulletSpeed)
-    bullet:show()
+    self.ability.event_cast:trigger(x, y)
 end
 
 function Player:getPlayerInfo()

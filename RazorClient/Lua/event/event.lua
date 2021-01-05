@@ -7,6 +7,7 @@ function event.init0()
     event.onMouseButtonDown = SimpleEvent:new()
     event.onSceneLoaded = SimpleEvent:new()
     event.onSceneUnloaded = SimpleEvent:new()
+    event.onSendTip = SimpleEvent:new()
 end
 
 return event

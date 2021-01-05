@@ -17,6 +17,7 @@ local data = {
     ["Assets/Res/Common/go_player.prefab"] = { "Assets/Res/Common/go_player.prefab", "common", "go_player", ".prefab", },
     ["Assets/Res/Monster/monster.prefab"] = { "Assets/Res/Monster/monster.prefab", "common", "monster", ".prefab", },
     ["Assets/Res/Scene1/s1.unity"] = { "Assets/Res/Scene1/s1.unity", "s1", "s1", ".unity", },
+    ["Assets/Res/Tip/PanelTip.prefab"] = { "Assets/Res/Tip/PanelTip.prefab", "tip", "PanelTip", ".prefab", },
 }
 
 ---@return asset.asset

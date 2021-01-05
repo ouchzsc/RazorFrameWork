@@ -1,4 +1,4 @@
-local GoPool = require("obj.Abstract.Object")
+local GoPool = require("obj.Object")
 local resUtils = require("res.resUtils")
 local GameObject = CS.UnityEngine.GameObject
 

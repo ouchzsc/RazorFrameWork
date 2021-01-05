@@ -23,7 +23,9 @@ function test.f5()
 end
 
 function test.f6()
-    package.loaded["player.PlayerInfo"] = nil
+    --module.scenes.lv1.player.evt_attack:trigger()
+    module.event.onSendTip:trigger("hello world")
+    --package.loaded["player.PlayerInfo"] = nil
     --goObj2 = ASyncGameObject:new()
     --goObj2:setAssetInfo("Assets/Res/TestGO.prefab")
     --goObj2:show()
@@ -31,12 +33,11 @@ function test.f6()
 end
 
 function test.f7()
-    print(module.scenes.lv1.monster.transform)
-    print(module.scenes.lv1.monster.pos)
+    module.scenes.lv1.player:hide()
 end
 
 function test.f8()
-    goObj2:hide()
+    module.scenes.lv1.player:show()
     --resUtils.dump()
 end
 

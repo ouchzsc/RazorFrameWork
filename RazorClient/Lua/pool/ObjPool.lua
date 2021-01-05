@@ -1,5 +1,5 @@
 ---@class ObjPool:Object
-local ObjPool = require("obj.Abstract.Object"):extends()
+local ObjPool = require("obj.Object"):extends()
 
 ---@protected
 function ObjPool:onNew()

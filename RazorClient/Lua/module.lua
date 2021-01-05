@@ -9,6 +9,7 @@ function module.init()
     module.sceneMgr = require("scene.sceneMgr")
     module.poolMgr = require("pool.poolMgr")
     module.scenes = require("scene.scenes")
+    module.ui = require("ui.ui")
 
     module.event.init0()
     module.poolMgr.init0()

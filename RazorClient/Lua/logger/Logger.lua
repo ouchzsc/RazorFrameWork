@@ -1,5 +1,5 @@
 ---@class Logger
-local Logger = require("obj.Abstract.Object"):extends()
+local Logger = require("obj.Object"):extends()
 local Time = CS.UnityEngine.Time
 local Log = CS.UnityEngine.Debug.Log
 local LogWarning = CS.UnityEngine.Debug.LogWarning
