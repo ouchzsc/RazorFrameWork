@@ -31,10 +31,18 @@ function SimpleEvent:reg(handler, argSelf)
 end
 
 function SimpleEvent:unReg(uId)
+    local handler = self.handlers[uId]
+    if not handler then
+        return
+    end
     self.handlers[uId] = nil
     self.argSelfs[uId] = nil
     table.insert(self.emptySlots, uId)
     self.emptySlotsCnt = self.emptySlotsCnt + 1
+    if self.tempHandlerList then
+        self.tempDelHandlerMap = self.tempDelHandlerMap or {}
+        self.tempDelHandlerMap[handler] = true
+    end
 end
 
 local module = require("module")
@@ -61,14 +69,25 @@ function SimpleEvent:trigger(...)
     for i = 1, cnt do
         local handler = self.tempHandlerList[i]
         local argSelf = self.tempArgSelfList[i]
+        self.tempHandlerList[i] = nil
+        self.tempArgSelfList[i] = nil
         if handler then
-            if not argSelf then
-                xpcall(handler, err, ...)
+            local tempDelHandlerMap = self.tempDelHandlerMap
+            if tempDelHandlerMap and tempDelHandlerMap[handler] then
+
             else
-                xpcall(handler, err, argSelf, ...)
+                if not argSelf then
+                    xpcall(handler, err, ...)
+                else
+                    xpcall(handler, err, argSelf, ...)
+                end
             end
-            self.tempHandlerList[i] = nil
-            self.tempArgSelfList[i] = nil
+        end
+    end
+    local tempDelHandlerMap = self.tempDelHandlerMap
+    if tempDelHandlerMap then
+        for k,v in pairs(tempDelHandlerMap) do
+            tempDelHandlerMap[k]=nil
         end
     end
     self.isTriggering = nil
